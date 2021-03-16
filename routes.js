@@ -1,10 +1,9 @@
 'use strict';
 
-const { Router } = require('express');
 const express = require('express');
 
 // Array of users:
-const users = [];
+const users = require('./models').User;
 
 // Router instance:
 const router = express.Router();
