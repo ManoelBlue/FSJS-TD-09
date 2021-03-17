@@ -23,19 +23,27 @@ function asyncHandler(cb){
 router.get('/users', asyncHandler(async (req, res) => {
     const users = await Users.findAll();
     res.json(users);
+    res.status(200).end();
 }));
 
 // Post Route to add a new user:
-router.post('/users', (req, res) => {
-    // the new user to be added:
-    const user = req.body;
-
-    // add the new user to the users array:
-    users.push(user);
-
-    // set the status to 'created':
-    res.status(201).end();
-});
+router.post('/users', asyncHandler(async (req, res) => {
+    let user;
+    try {
+        user = await Users.create(req.body);
+        res.location("/").status(201).end();
+    } catch (error) {
+        if(error.name === "SequelizeValidationError") {
+            console.log(error);
+            res.json({
+                message: "The user could not be created."
+            });
+            res.status(400).end()
+        } else {
+            throw error;
+        } 
+    }
+}));
 
 //Courses routes:
 // Get all Courses route:
