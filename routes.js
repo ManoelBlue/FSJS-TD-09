@@ -29,9 +29,10 @@ router.get('/users', asyncHandler(async (req, res) => {
 // Post Route to add a new user:
 router.post('/users', asyncHandler(async (req, res) => {
     let user;
+    console.log(req.body);
     try {
         user = await Users.create(req.body);
-        res.location("/").status(201).end();
+        res.status(201).end();
     } catch (error) {
         if(error.name === "SequelizeValidationError") {
             console.log(error);
@@ -40,6 +41,7 @@ router.post('/users', asyncHandler(async (req, res) => {
             });
             res.status(400).end()
         } else {
+            console.log(error);
             throw error;
         } 
     }
@@ -47,8 +49,6 @@ router.post('/users', asyncHandler(async (req, res) => {
 
 //Courses routes:
 // Get all Courses route:
-router.get('/courses', (req, res) => {
-
-})
+router.get('/courses', )
 
 module.exports = router;

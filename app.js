@@ -3,6 +3,7 @@
 // load modules
 const express = require('express');
 const morgan = require('morgan');
+const bodyParser = require('body-parser');
 const { sequelize } = require('./models');
 const routes = require('./routes');
 
@@ -11,6 +12,10 @@ const enableGlobalErrorLogging = process.env.ENABLE_GLOBAL_ERROR_LOGGING === 'tr
 
 // create the Express app
 const app = express();
+
+// Add body parser:
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
 
 // setup morgan which gives us http request logging
 app.use(morgan('dev'));
