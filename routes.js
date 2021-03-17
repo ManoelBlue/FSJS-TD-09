@@ -85,13 +85,14 @@ router.post('/courses', asyncHandler(async (req, res) => {
     }
 }));
 
-// Put rout to update a course:
+// Put route to update a course:
 router.put('/courses/:id', asyncHandler(async (req, res) => {
     let course;
     try {
         course = await Courses.findByPk(req.params.id);
         if (course) {
-            course = req.body
+            await course.update(req.body);
+            res.status(204).end();
         } else {
             res.status(404).json({message: "Course was not updated"});
         }
@@ -107,6 +108,13 @@ router.put('/courses/:id', asyncHandler(async (req, res) => {
             throw error;
         }
     }
+}));
+
+// Delete route to delete a course:
+router.delete('/courses/:id', asyncHandler(async (req, res) => {
+    let course = await Courses.findByPk(req.params.id);
+    await course.destroy();
+    res.status(204).end();
 }));
 
 module.exports = router;
