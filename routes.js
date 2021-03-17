@@ -64,4 +64,49 @@ router.get('/courses/:id', asyncHandler(async (req, res) => {
     res.status(200).end();
 }))
 
+// Post route to add a course:
+router.post('/courses', asyncHandler(async (req, res) => {
+    let course;
+    console.log(req.body);
+    try {
+        user = await Courses.create(req.body);
+        res.status(201).end();
+    } catch (error) {
+        if(error.name === "SequelizeValidationError") {
+            console.log(error);
+            res.json({
+                message: "The course could not be created."
+            });
+            res.status(400).end()
+        } else {
+            console.log(error);
+            throw error;
+        } 
+    }
+}));
+
+// Put rout to update a course:
+router.put('/courses/:id', asyncHandler(async (req, res) => {
+    let course;
+    try {
+        course = await Courses.findByPk(req.params.id);
+        if (course) {
+            course = req.body
+        } else {
+            res.status(404).json({message: "Course was not updated"});
+        }
+    } catch(error) {
+        if(error.name === "SequelizeValidationError") {
+            console.log(error);
+            res.json({
+                message: "The course could not be updated."
+            });
+            res.status(400).end()
+        } else {
+            console.log(error);
+            throw error;
+        }
+    }
+}));
+
 module.exports = router;
