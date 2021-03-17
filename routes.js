@@ -3,6 +3,8 @@
 const express = require('express');
 // Array of users:
 const Users = require('./models').User;
+// Array of courses:
+const Courses = require('./models').Course;
 // Router instance:
 const router = express.Router();
 
@@ -49,6 +51,17 @@ router.post('/users', asyncHandler(async (req, res) => {
 
 //Courses routes:
 // Get all Courses route:
-router.get('/courses', )
+router.get('/courses', asyncHandler(async (req, res) => {
+    const courses = await Courses.findAll();
+    res.json(courses);
+    res.status(200).end();
+}))
+
+// Get route to a certain course:
+router.get('/courses/:id', asyncHandler(async (req, res) => {
+    const courses = await Courses.findByPk(req.params.id);
+    res.json(courses);
+    res.status(200).end();
+}))
 
 module.exports = router;
