@@ -29,19 +29,14 @@ router.get('/users', asyncHandler(async (req, res) => {
 // Post Route to add a new user:
 router.post('/users', asyncHandler(async (req, res) => {
     let user;
-    console.log(req.body);
     try {
         user = await Users.create(req.body);
         res.status(201).location("/").end();
     } catch (error) {
         if(error.name === "SequelizeValidationError") {
-            console.log(error);
-            res.json({
-                message: "The user could not be created."
-            });
-            res.status(400).end()
+            const errors = error.errors.map(error => error.message);
+            res.status(400).json({errors});
         } else {
-            console.log(error);
             throw error;
         } 
     }
