@@ -1,8 +1,8 @@
 'use strict';
 
 const express = require('express');
-// Array of courses:
-const Courses = require('./models').Course;
+// Array of users and courses:
+const { Courses, Users } = require('./models').Course;
 // Router instance:
 const router = express.Router();
 
@@ -21,7 +21,11 @@ function asyncHandler(cb){
 //Courses routes:
 // Get all Courses route:
 router.get('/courses', asyncHandler(async (req, res) => {
-    const courses = await Courses.findAll();
+    const courses = await Courses.findAll({
+        include: [{
+            model: Users,
+        }]
+    });
     res.json(courses);
     res.status(200).end();
 }))
@@ -38,8 +42,8 @@ router.post('/courses', asyncHandler(async (req, res) => {
     let course;
     console.log(req.body);
     try {
-        user = await Courses.create(req.body);
-        res.status(201).end();
+        course = await Courses.create(req.body);
+        res.status(201).location(`/courses/${course.id}`).end();
     } catch (error) {
         if(error.name === "SequelizeValidationError") {
             console.log(error);
