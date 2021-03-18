@@ -12,18 +12,50 @@ module.exports = (sequelize) => {
         firstName: {
             type: Sequelize.STRING,
             allowNull: false,
+            validate: {
+                notNull: {
+                    msg: "Please add a name."
+                },
+                notEmpty: {
+                    msg: 'Please add a name.'
+                }
+            }
         },
         lastName: {
             type: Sequelize.STRING,
             allowNull: false,
+            validate: {
+                notNull: {
+                    msg: "Please add a name."
+                },
+                notEmpty: {
+                    msg: 'Please add a name.'
+                }
+            }
         },
         emailAddress: {
             type: Sequelize.STRING,
             allowNull: false,
+            validate: {
+                notNull: {
+                    msg: "Please add a name."
+                },
+                notEmpty: {
+                    msg: 'Please add a name.'
+                }
+            }
         },
         password: {
             type: Sequelize.STRING,
             allowNull: false,
+            validate: {
+                notNull: {
+                    msg: "Please add a name."
+                },
+                notEmpty: {
+                    msg: 'Please add a name.'
+                }
+            }
         }
     }, { sequelize });
 
