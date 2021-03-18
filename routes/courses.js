@@ -40,19 +40,14 @@ router.get('/courses/:id', asyncHandler(async (req, res) => {
 // Post route to add a course:
 router.post('/courses', asyncHandler(async (req, res) => {
     let course;
-    console.log(req.body);
     try {
         course = await Courses.create(req.body);
         res.status(201).location(`/courses/${course.id}`).end();
     } catch (error) {
         if(error.name === "SequelizeValidationError") {
-            console.log(error);
-            res.json({
-                message: "The course could not be created."
-            });
-            res.status(400).end()
+            const errors = error.errors.map(error => error.message);
+            res.status(400).json({errors});
         } else {
-            console.log(error);
             throw error;
         } 
     }
