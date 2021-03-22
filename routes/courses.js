@@ -28,7 +28,7 @@ router.get('/courses/:id', asyncHandler(async (req, res) => {
 }))
 
 // Post route to add a course:
-router.post('/courses', asyncHandler(async (req, res) => {
+router.post('/courses', authenticateUser, asyncHandler(async (req, res) => {
     let course;
     try {
         course = await Courses.create(req.body);
@@ -44,15 +44,17 @@ router.post('/courses', asyncHandler(async (req, res) => {
 }));
 
 // Put route to update a course:
-router.put('/courses/:id', asyncHandler(async (req, res) => {
+router.put('/courses/:id', authenticateUser, asyncHandler(async (req, res) => {
     let course;
     try {
+        const currentUser = req.currentUser;
         course = await Courses.findByPk(req.params.id);
-        if (course) {
+
+        if (course.userId === currentUser.id) {
             await course.update(req.body);
             res.status(204).end();
         } else {
-            res.status(404).json({message: "Course was not updated"});
+            res.status(403).json({message: "Not authorized operation."}).end();
         }
     } catch(error) {
         if(error.name === "SequelizeValidationError") {
@@ -69,10 +71,16 @@ router.put('/courses/:id', asyncHandler(async (req, res) => {
 }));
 
 // Delete route to delete a course:
-router.delete('/courses/:id', asyncHandler(async (req, res) => {
-    let course = await Courses.findByPk(req.params.id);
-    await course.destroy();
-    res.status(204).end();
+router.delete('/courses/:id', authenticateUser, asyncHandler(async (req, res) => {
+    const currentUser = req.currentUser;
+    const course = await Courses.findByPk(req.params.id);
+
+    if (course.userId === currentUser.id) {
+        await course.destroy();
+        res.status(204).end();
+    } else {
+        res.status(403).json({ message: "Not authorized operation."}).end();
+    }
 }));
 
 module.exports = router;
