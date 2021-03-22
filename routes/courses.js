@@ -5,18 +5,8 @@ const express = require('express');
 const { Courses, Users } = require('./models').Course;
 // Router instance:
 const router = express.Router();
-
-/* Handler function to wrap each route. */
-function asyncHandler(cb){
-    return async(req, res, next) => {
-        try {
-        await cb(req, res, next)
-        } catch(error){
-        // Forward error to the global error handler
-        next(error);
-        }
-    }
-}
+// Middlewares:
+const asyncHandler = require('../middleware/async-handler');
 
 //Courses routes:
 // Get all Courses route:
