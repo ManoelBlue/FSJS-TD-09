@@ -7,13 +7,18 @@ const Users = require('./models').User;
 const router = express.Router();
 // Middlewares:
 const asyncHandler = require('../middleware/async-handler');
+const authenticateUser = require('../middleware/auth-user');
 
 // Users routes:
 // Get Route for a list of users:
-router.get('/users', asyncHandler(async (req, res) => {
-    const users = await Users.findAll();
-    res.json(users);
-    res.status(200).end();
+router.get('/users', authenticateUser, asyncHandler(async (req, res) => {
+    const user = req.currentUser;
+
+    res.json({
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.emailAddress
+    });
 }));
 
 // Post Route to add a new user:
