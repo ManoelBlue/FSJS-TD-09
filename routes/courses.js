@@ -14,7 +14,13 @@ router.get('/courses', asyncHandler(async (req, res) => {
     const courses = await Courses.findAll({
         include: [{
             model: Users,
-        }]
+            attributes: {
+                exclude: ['password', 'createdAt', 'updatedAt']
+            }
+        }],
+        attributes: {
+            exclude: ['createdAt', 'updatedAt']
+        }
     });
     res.json(courses);
     res.status(200).end();
@@ -22,8 +28,22 @@ router.get('/courses', asyncHandler(async (req, res) => {
 
 // Get route to a certain course:
 router.get('/courses/:id', asyncHandler(async (req, res) => {
-    const courses = await Courses.findByPk(req.params.id);
-    res.json(courses);
+    const course = await Courses.findAll({
+        where: {
+            id: req.params.id,
+        },
+        include: [{
+            model: Users,
+            attributes: {
+                exclude: ['password', 'createdAt', 'updatedAt']
+            }
+        }],
+        attributes: {
+            exclude: ['createdAt', 'updatedAt']
+        }
+    });
+
+    res.json(course);
     res.status(200).end();
 }))
 
