@@ -2,12 +2,12 @@
 
 const express = require('express');
 // Array of users:
-const Users = require('./models').User;
+const Users = require('../models').User;
 // Router instance:
 const router = express.Router();
 // Middlewares:
-const asyncHandler = require('../middleware/async-handler');
-const authenticateUser = require('../middleware/auth-user');
+const {asyncHandler} = require('../middleware/async-handler');
+const {authenticateUser} = require('../middleware/auth-user');
 
 // Users routes:
 // Get Route for a list of users:

@@ -2,11 +2,12 @@
 
 const express = require('express');
 // Array of users and courses:
-const { Courses, Users } = require('./models').Course;
+const { Courses, Users } = require('../models').Course;
 // Router instance:
 const router = express.Router();
 // Middlewares:
-const asyncHandler = require('../middleware/async-handler');
+const {asyncHandler} = require('../middleware/async-handler');
+const {authenticateUser} = require('../middleware/auth-user');
 
 //Courses routes:
 // Get all Courses route:
