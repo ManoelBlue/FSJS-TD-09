@@ -10,7 +10,6 @@ exports.authenticateUser = async (req, res, next) => {
 
     // Check for existent credentials:
     if (credentials) {
-        console.log(credentials);
         const user = await Users.findOne({ where: {emailAddress: credentials.name}});
         // Check for existent user:
         if (user) {

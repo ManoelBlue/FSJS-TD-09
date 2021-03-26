@@ -2,7 +2,8 @@
 
 const express = require('express');
 // Array of users and courses:
-const { Courses, Users } = require('../models').Course;
+const Users = require('../models').User;
+const Courses = require('../models').Course;
 // Router instance:
 const router = express.Router();
 // Middlewares:
