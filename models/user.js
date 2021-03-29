@@ -15,10 +15,10 @@ module.exports = (sequelize) => {
             allowNull: false,
             validate: {
                 notNull: {
-                    msg: "Please add a name."
+                    msg: "Please add a first name."
                 },
                 notEmpty: {
-                    msg: 'Please add a name.'
+                    msg: "Please add a first name."
                 }
             }
         },
@@ -27,10 +27,10 @@ module.exports = (sequelize) => {
             allowNull: false,
             validate: {
                 notNull: {
-                    msg: "Please add a name."
+                    msg: "Please add a last name."
                 },
                 notEmpty: {
-                    msg: 'Please add a name.'
+                    msg: "Please add a last name"
                 }
             }
         },
@@ -42,10 +42,10 @@ module.exports = (sequelize) => {
             },
             validate: {
                 notNull: {
-                    msg: "Please add a name."
+                    msg: "Please add an email."
                 },
                 notEmpty: {
-                    msg: 'Please add a name.'
+                    msg: 'Please add an email.'
                 },
                 isEmail: {
                     msg: "The email is not formated correctly."
@@ -57,10 +57,10 @@ module.exports = (sequelize) => {
             allowNull: false,
             validate: {
                 notNull: {
-                    msg: "Please add a name."
+                    msg: "Please add a password."
                 },
                 notEmpty: {
-                    msg: 'Please add a name.'
+                    msg: 'Please add a password.'
                 }
             },
             set(value) {
