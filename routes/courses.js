@@ -75,11 +75,13 @@ router.put('/courses/:id', authenticateUser, asyncHandler(async (req, res) => {
         const currentUser = req.currentUser;
         course = await Courses.findByPk(req.params.id);
 
-        if (course.userId === currentUser.id) {
-            await course.update(req.body);
-            res.status(204).end();
-        } else {
-            res.status(403).json({message: "Not authorized operation."}).end();
+        if (course) {
+            if (course.userId === currentUser.id) {
+                await course.update(req.body);
+                res.status(204).end();
+            } else {
+                res.status(403).json({message: "Not authorized operation."}).end();
+            }
         }
     } catch(error) {
         if(error.name === "SequelizeValidationError") {
