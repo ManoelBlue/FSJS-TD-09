@@ -3,6 +3,7 @@
 // load modules
 const express = require('express');
 const morgan = require('morgan');
+const cors = require('cors');
 const bodyParser = require('body-parser');
 const { sequelize } = require('./models');
 const usersRoutes = require('./routes/users');
@@ -17,6 +18,9 @@ const app = express();
 // Add body parser:
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
+
+// Enable all cORS requests:
+app.use(cors());
 
 // setup morgan which gives us http request logging
 app.use(morgan('dev'));
